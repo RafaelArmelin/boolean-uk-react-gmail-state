@@ -4,6 +4,8 @@ import initialEmails from "./data/emails";
 
 import "./App.css";
 
+import useState from "react";
+
 function App() {
   // Use initialEmails for state
   console.log(initialEmails);
