@@ -5,11 +5,12 @@ import Header from "./components/Header";
 import initialEmails from "./data/emails";
 
 import "./App.css";
-import emails from "./data/emails";
+
+const filterUnredEmails = (emails) => emails.filter((email) => !email.read);
 
 function App() {
   const [emails, setEmails] = useState(initialEmails);
-  console.log(initialEmails);
+  const [hideRead, setHideRead] = useState(false);
 
   const toggleStar = (targetEmail) => {
     const updatedEmails = emails.map((email) => {
@@ -40,6 +41,11 @@ function App() {
     });
     setEmails(updatedEmails);
   };
+  let filteredEmails = emails;
+
+  if (hideRead) {
+    filteredEmails = filterUnredEmails(emails);
+  }
 
   return (
     <div className="app">
@@ -66,15 +72,15 @@ function App() {
             <input
               id="hide-read"
               type="checkbox"
-              checked={false}
-              // onChange={() => {}}
+              checked={hideRead}
+              onChange={(event) => setHideRead(event.target.checked)}
             />
           </li>
         </ul>
       </nav>
       <main className="emails">
         <ul>
-          {emails.map((email) => {
+          {filteredEmails.map((email) => {
             return (
               <li className={email.read ? "email read" : "email"}>
                 <div className="select">
