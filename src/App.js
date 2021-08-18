@@ -11,6 +11,36 @@ function App() {
   const [emails, setEmails] = useState(initialEmails);
   console.log(initialEmails);
 
+  const toggleStar = (targetEmail) => {
+    const updatedEmails = emails.map((email) => {
+      if (email.id === targetEmail.id) {
+        const updatedEmail = {
+          ...targetEmail,
+          starred: !targetEmail.starred,
+        };
+        return updatedEmail;
+      } else {
+        return email;
+      }
+    });
+    setEmails(updatedEmails);
+  };
+
+  const toggleRead = (targetEmail) => {
+    const updatedEmails = emails.map((email) => {
+      if (email.id === targetEmail.id) {
+        const updatedEmail = {
+          ...targetEmail,
+          read: !targetEmail.read,
+        };
+        return updatedEmail;
+      } else {
+        return email;
+      }
+    });
+    setEmails(updatedEmails);
+  };
+
   return (
     <div className="app">
       <Header />
@@ -46,13 +76,13 @@ function App() {
         <ul>
           {emails.map((email) => {
             return (
-              <li className="read">
+              <li className={email.read ? "email read" : "email"}>
                 <div className="select">
                   <input
                     className="select-checkbox"
                     type="checkbox"
                     checked={email.read}
-                    onChange={() => {}}
+                    onChange={() => toggleRead(email)}
                   />
                 </div>
                 <div className="star">
@@ -60,7 +90,7 @@ function App() {
                     className="star-checkbox"
                     type="checkbox"
                     checked={email.starred}
-                    onChange={() => {}}
+                    onChange={() => toggleStar(email)}
                   />
                 </div>
                 <div className="sender">{email.sender}</div>
